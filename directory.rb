@@ -20,8 +20,9 @@ end
 
 #this ireteration will print
 def prints(students)
-students.each do |student|
-  puts "#{student[:name]} (#{student[:cohort]} cohort)"
+students.each_with_index do |student, index|
+  list = "#{student[:name]} (#{student[:cohort]} cohort)"
+  puts "#{index + 1}. " + list
 end
 end
 
