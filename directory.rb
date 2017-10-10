@@ -20,18 +20,19 @@ end
 
 #this ireteration will print
 def prints(students)
-students.each_with_index do |student, index|
-  list = "#{student[:name]} (#{student[:cohort]} cohort)"
-  puts "#{index + 1}. " + list
+  while students.any? {|student,index|}
+    list = "#{student[:name]} (#{student[:cohort]} cohort)"
+    puts "#{index + 1}. " + list
 end
 end
 
 #printing the total number of students
 def print_footer(names)
-puts  "Overall, we have #{names.count} great students"
+puts "Overall, we have #{names.count} great students"
 end
 
-students = input_students
-print_header
-prints(students)
-print_footer(students)
+#method printing
+ students = input_students
+ print_header
+ prints(students)
+ print_footer(students)
