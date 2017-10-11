@@ -1,29 +1,33 @@
-#printing the list of students
 def input_students
   puts "Please enter the names of the students"
   puts "To finish, just hit return twice"
-
   students = []
   name = gets.chomp
+
   while !name.empty? do
-    students << {name: name, cohort: :november}
-    puts "Now we have #{students.count} students"
-    name = gets.chomp
+  puts "Where is she from?"
+  country = $stdin.gets.chomp
+  break if !country.empty?
+  end
+
+  while !name.empty? && !country.empty? do
+  students << {name: name, country: country , cohort: :October}
+  puts "Now we have #{students.count} students"
+  # get another name from the user
+  name = gets.chomp
   end
   students
 end
 
 def print_header
-puts "The students of Villans Academy"
+puts "The students of Makers Academy"
 puts "-------------"
 end
 
-#this ireteration will print
 def prints(students)
-  while students.any? {|student,index|}
-    list = "#{student[:name]} (#{student[:cohort]} cohort)"
-    puts "#{index + 1}. " + list
-end
+  students.each do |student|
+    puts "#{student[:name]} #{student[:country]} (#{student[:cohort]} cohort)"
+  end
 end
 
 #printing the total number of students
