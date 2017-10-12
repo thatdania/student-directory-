@@ -21,7 +21,7 @@
 def interactive_menu
   loop do
   print_menu
-  process(gets.chomp)
+  process($stdin.gets.chomp)
 end
 end
 
@@ -35,26 +35,6 @@ puts "4. Load the file"
 puts "5. Exit"
 end
 
-def save_students
-  file = File.open("students.csv","w")
-  @students. each do |student|
-  student_data = [student[:name], student[:country], student[:age], student[:cohort]]
-  csv_line = student_data.join(",")
-  file.puts csv_line
-end
-file.close
-
-end
-
-def load_students
-  file = File.open("students.csv", "r")
-  file.readlines.each do |line|
-  name, country, age, cohort = line.chomp.split(',')
-    @students << {name: name, country: country, age: age, cohort: cohort.to_sym}
-  end
-  file.close
-  puts @students
-end
 #process of choosing what number does what action
 def process(selection)
   case selection
@@ -85,7 +65,7 @@ def input_students
   puts "------------- Student List Form -------------".center(60)
   puts "Add a student profile to the list. What's his/her name?".center(72)
 
-  name = gets.chomp.downcase.capitalize
+  name = $stdin.gets.chomp.downcase.capitalize
   if name.empty? || name == " "
     puts "This is an alien!".center(33)
     exit(true)
@@ -95,7 +75,7 @@ def input_students
      puts "What country are they from?".center(43)
      country = $stdin.gets.chomp.downcase.capitalize
      if country.empty? || country == " "
-       puts "This isan alien!".center(33)
+       puts "This is an alien!".center(33)
        exit(true)
      end
 
@@ -121,7 +101,7 @@ def input_students
      puts "Add another student's profile his/her name.".center(60)
      puts "or press ENTER to print out the whole list".center(58)
   # get another name from the user
-     name = gets.chomp
+     name = $stdin.gets.chomp
   end
      @students
   end
@@ -160,7 +140,41 @@ end
 puts "---------------------------------------------".center(60)
 end
 
-#saving the list of students to the file
+#saving students into a created file
+def save_students
+  file = File.open("students.csv","w")
+  @students.each do |student|
+  student_data = [student[:name], student[:country], student[:age], student[:cohort]]
+  csv_line = student_data.join(",")
+  file.puts csv_line
+  end
+  file.close
+end
+
+#loading students from a file
+def load_students(filename = "students.csv")
+  file = File.open(filename, "r")
+  file.readlines.each do |line|
+  name, country, age, cohort = line.chomp.split(',')
+    @students << {name: name, country: country, age: age, cohort: cohort.to_sym}
+  end
+  file.close
+end
+
+#inputing the students from an argument file
+def first
+  filename = ARGV.first
+  return if filename.nil?
+  puts "Loading..."
+  if File.exists?(filename)
+    load_students(filename)
+    puts "Loaded #{@students.count} from #{filename}"
+  else
+    puts "Soz #{filename} doesn't exist."
+    exit
+  end
+end
 
 #method printing
+first
 interactive_menu
