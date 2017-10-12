@@ -30,9 +30,31 @@ def print_menu
 puts "Hi. Welcome to the Student Directory. Write the option number."
 puts "1. Input the students"
 puts "2. Show the students"
-puts "4. Exit"
+puts "3. Save the data into a file"
+puts "4. Load the file"
+puts "5. Exit"
 end
 
+def save_students
+  file = File.open("students.csv","w")
+  @students. each do |student|
+  student_data = [student[:name], student[:country], student[:age], student[:cohort]]
+  csv_line = student_data.join(",")
+  file.puts csv_line
+end
+file.close
+
+end
+
+def load_students
+  file = File.open("students.csv", "r")
+  file.readlines.each do |line|
+  name, country, age, cohort = line.chomp.split(',')
+    @students << {name: name, country: country, age: age, cohort: cohort.to_sym}
+  end
+  file.close
+  puts @students
+end
 #process of choosing what number does what action
 def process(selection)
   case selection
@@ -42,7 +64,11 @@ def process(selection)
     print_rest
   when "3"
     save_students
+    puts "File is saved"
   when "4"
+    load_students
+    puts "Loaded the file"
+  when "5"
     exit(true)
   else
   puts "I dont know what you mean. Input the number again."
