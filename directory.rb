@@ -22,23 +22,23 @@ def input_students
   puts "Add a student profile to the list. What's his/her name?".center(72)
 
   name = gets.chomp.downcase.capitalize
-  if name.empty?
-    puts "This is an alien!"
+  if name.empty? || name == " "
+    puts "This is an alien!".center(33)
     exit(true)
   end
 
     while !name.empty? do
      puts "What country are they from?".center(43)
      country = $stdin.gets.chomp
-     if country.empty?
-       puts "This isan alien!"
+     if country.empty? || country == " "
+       puts "This isan alien!".center(33)
        exit(true)
      end
 
     puts "What's his or her age?".center(39)
      age = $stdin.gets.chomp
-      if age.empty?
-         puts "This is an alien!"
+      if age.empty? || age == " "
+         puts "This is an alien!".center(33)
          exit(true)
        end
        age.to_i
