@@ -30,10 +30,10 @@ def print_menu
 puts "Hi. Welcome to the Student Directory. Write the option number."
 puts "1. Input the students"
 puts "2. Show the students"
-puts "3. Exit"
+puts "4. Exit"
 end
 
-#process of choosing what number does what action 
+#process of choosing what number does what action
 def process(selection)
   case selection
   when "1"
@@ -41,6 +41,8 @@ def process(selection)
   when "2"
     print_rest
   when "3"
+    save_students
+  when "4"
     exit(true)
   else
   puts "I dont know what you mean. Input the number again."
@@ -65,7 +67,7 @@ def input_students
 
     while !name.empty? do
      puts "What country are they from?".center(43)
-     country = $stdin.gets.chomp
+     country = $stdin.gets.chomp.downcase.capitalize
      if country.empty? || country == " "
        puts "This isan alien!".center(33)
        exit(true)
@@ -131,6 +133,8 @@ else
 end
 puts "---------------------------------------------".center(60)
 end
+
+#saving the list of students to the file
 
 #method printing
 interactive_menu
