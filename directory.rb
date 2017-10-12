@@ -14,8 +14,44 @@
   :december
 ]
 
-@students = []
 #Inputting the student name, #country and # age
+@students = []
+
+#start of the interactive menu
+def interactive_menu
+  loop do
+  print_menu
+  process(gets.chomp)
+end
+end
+
+#menu is priting all the options
+def print_menu
+puts "Hi. Welcome to the Student Directory. Write the option number."
+puts "1. Input the students"
+puts "2. Show the students"
+puts "3. Exit"
+end
+
+#process of choosing what number does what action 
+def process(selection)
+  case selection
+  when "1"
+    students = input_students
+  when "2"
+    print_rest
+  when "3"
+    exit(true)
+  else
+  puts "I dont know what you mean. Input the number again."
+  end
+end
+
+def print_rest
+print_header
+prints(@students)
+print_footer(@students)
+end
 
 def input_students
   puts "------------- Student List Form -------------".center(60)
@@ -97,7 +133,4 @@ puts "---------------------------------------------".center(60)
 end
 
 #method printing
-students = input_students
-print_header
-prints(students)
-print_footer(students)
+interactive_menu
