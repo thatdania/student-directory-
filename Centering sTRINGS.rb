@@ -1,4 +1,6 @@
-puts "Add a student profile to the list. What's his/her name?".center(72)
+#All the strings in the directory which have been centered are all here
+#this is so its easy to align them all rather than typing out code 
+
 puts "What country are they from?".center(43)
 puts "What's his or her age?".center(39)
 puts "What's his or her age?".center(39)
