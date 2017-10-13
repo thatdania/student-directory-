@@ -17,15 +17,15 @@
 #Inputting the student name, #country and # age
 @students = []
 
-#start of the interactive menu
+#The menu starts the activate
 def interactive_menu
   loop do
   print_menu
-  process($stdin.gets.chomp)
+  process(gets.chomp)
 end
 end
 
-#menu is priting all the options
+#print the menu
 def print_menu
 puts "Hi. Welcome to the Student Directory. Write the option number."
 puts "1. Input the students"
@@ -55,35 +55,32 @@ def process(selection)
   end
 end
 
-def print_rest
-print_header
-prints(@students)
-print_footer(@students)
+def alien
+  puts "This is an alien!".center(33)
+  exit(true)
 end
 
+#inputs the students arguments
 def input_students
   puts "------------- Student List Form -------------".center(60)
   puts "Add a student profile to the list. What's his/her name?".center(72)
 
-  name = $stdin.gets.chomp.downcase.capitalize
+  name = gets.chomp.downcase.capitalize
   if name.empty? || name == " "
-    puts "This is an alien!".center(33)
-    exit(true)
+    alien
   end
 
     while !name.empty? do
      puts "What country are they from?".center(43)
      country = $stdin.gets.chomp.downcase.capitalize
      if country.empty? || country == " "
-       puts "This is an alien!".center(33)
-       exit(true)
+        alien
      end
 
     puts "What's his or her age?".center(39)
      age = $stdin.gets.chomp
       if age.empty? || age == " "
-         puts "This is an alien!".center(33)
-         exit(true)
+         alien
        end
        age.to_i
 
@@ -101,10 +98,18 @@ def input_students
      puts "Add another student's profile his/her name.".center(60)
      puts "or press ENTER to print out the whole list".center(58)
   # get another name from the user
-     name = $stdin.gets.chomp
+     name = gets.chomp
   end
      @students
   end
+#input code help
+
+#printing the rest of the methods
+def print_rest
+print_header
+prints(@students)
+print_footer(@students)
+end
 
 #Header of the form result
 def print_header
@@ -113,7 +118,6 @@ puts "-------------".center(30)
 end
 
 #printing the list of students
-
 def prints(students)
   puts "What cohort do you want to see?".center(47)
   c = gets.chomp
@@ -140,18 +144,18 @@ end
 puts "---------------------------------------------".center(60)
 end
 
-#saving students into a created file
+#save the studnets to the file
 def save_students
   file = File.open("students.csv","w")
-  @students.each do |student|
+  @students. each do |student|
   student_data = [student[:name], student[:country], student[:age], student[:cohort]]
   csv_line = student_data.join(",")
   file.puts csv_line
-  end
-  file.close
+end
+file.close
 end
 
-#loading students from a file
+#load the file of students
 def load_students(filename = "students.csv")
   file = File.open(filename, "r")
   file.readlines.each do |line|
@@ -159,22 +163,22 @@ def load_students(filename = "students.csv")
     @students << {name: name, country: country, age: age, cohort: cohort.to_sym}
   end
   file.close
+  puts @students
 end
 
-#inputing the students from an argument file
-def first
-  filename = ARGV.first
-  return if filename.nil?
-  puts "Loading..."
-  if File.exists?(filename)
-    load_students(filename)
-    puts "Loaded #{@students.count} from #{filename}"
-  else
-    puts "Soz #{filename} doesn't exist."
-    exit
-  end
+#input the file automatically
+def input
+filename = ARGV.first
+return if filename.nil?
+if File.exists?(filename)
+  load_students(filename)
+  puts "Loaded #{@students.count} from #{filename}"
+else
+  puts "Soz, #{filename} doesn't exist"
+  exit
+end
 end
 
-#method printing
-first
+#calling the methods
+input
 interactive_menu
