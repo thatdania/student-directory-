@@ -29,10 +29,11 @@ end
 def print_menu
 puts "Hi. Welcome to the Student Directory. Write the option number."
 puts "1. Input the students"
-puts "2. Show the students"
-puts "3. Save the data into a file"
-puts "4. Load the file"
-puts "5. Exit"
+puts "2. Show all students"
+#show_students the students via cohort
+puts "4. Save the data into a file"
+puts "5. Load the file"
+puts "6. Exit"
 end
 
 #process of choosing what number does what action
@@ -42,25 +43,20 @@ def process(selection)
     students = input_students
   when "2"
     print_rest
-  when "3"
+  when "4"
     save_students
     puts "\nFile is saved\n\n"
-  when "4"
+  when "5"
     load_students
     puts "\nLoaded the file\n\n"
-  when "5"
+  when "6"
     exit(true)
   else
   puts "\nI dont know what you mean. Input the number again.\n\n"
   end
 end
 
-def alien
-  puts "This is an alien!".center(33)
-  exit(true)
-end
-
-#inputs the students arguments
+# 1. Input the students arguments
 def input_students
   puts "------------- Student List Form -------------".center(60)
   puts "Add a student profile to the list. What's his/her name?".center(72)
@@ -98,27 +94,33 @@ def input_students
      @students
   end
 
-#printing the rest of the methods
+#For step 1 input: ALIEN
+  def alien
+    puts "This is an alien!".center(33)
+    exit(true)
+  end
+
+#2. Show all students" - Method including Header and Footer
 def print_rest
 print_header
 prints(@students)
 print_footer(@students)
 end
 
-#Header of the form result
+#2.1 Header of the form result
 def print_header
 puts "The students of Makers Academy".center(47)
 puts "-------------".center(30)
 end
 
-#printing the list of students
+#2.2 printing the list of students
 def prints(students)
   @students.each do |student|
-    puts "#{student[:name]} (#{student[:cohort]} cohort)"
+    puts "#{student[:name]}, Country: #{student[:country]}, Age: #{student[:age]}, (#{student[:cohort]} cohort)"
   end
 end
 
-#printing the total number of students and end
+#2.3 printing the total number of students and end
 def print_footer(names)
   puts
 if names.count == 1
@@ -129,7 +131,7 @@ end
 puts "---------------------------------------------".center(60)
 end
 
-#save the studnets to the file
+#4. save the students to the file
 def save_students
   file = File.open("students.csv","w")
   @students. each do |student|
@@ -140,12 +142,12 @@ end
 file.close
 end
 
-#load the file of students
+#5. load the file of students
 def load_students(filename = "students.csv")
   file = File.open(filename, "r")
   file.readlines.each do |line|
-  name, cohort = line.chomp.split(',')
-    @students << {name: name, cohort: cohort.to_sym}
+  name, country, age, cohort = line.chomp.split(',')
+    @students << {name: name, country: country, age: age, cohort: cohort.to_sym}
   end
   file.close
    puts @students
@@ -163,6 +165,7 @@ else
   exit
 end
 end
+
 
 #calling the methods
 input
