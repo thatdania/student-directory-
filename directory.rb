@@ -130,6 +130,9 @@ sucessful
 puts "---------------------------------------------".center(60)
 end
 
+#3. Asking to show the students via cohort
+
+
 #4.1 asking where to save
 def asking_save
 puts "Where would you like to save the students?"
@@ -150,7 +153,13 @@ sucessful
 end
 
 #5. load the file of students
-def load_students(filename = "students.csv")
+def load_students
+  puts "Which file would you like to load from?"
+  filename = gets.chomp
+  until File.exist?(filename)
+  puts "File no exist, try again"
+  filename = gets.chomp
+end 
   file = File.open(filename, "r")
   file.readlines.each do |line|
   name, cohort = line.chomp.split(',')
