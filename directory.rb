@@ -44,9 +44,9 @@ def process(selection)
   when "2"
     print_rest
   when "4"
-    save_students
+    asking_save
   when "5"
-    load_students
+    load_ask
   when "6"
     exit(true)
   else
@@ -130,9 +130,15 @@ sucessful
 puts "---------------------------------------------".center(60)
 end
 
+#4.1 asking where to save
+def asking_save
+puts "Where would you like to save the students?"
+save_students(STDIN.gets.chomp)
+end
+
 #4. save the students to the file
-def save_students
-  file = File.open("students.csv","w")
+def save_students(csv_file)
+  file = File.open(csv_file,"w")
   @students. each do |student|
   student_data = [student[:name], student[:country], student[:age], student[:cohort]]
   csv_line = student_data.join(",")
@@ -147,13 +153,13 @@ end
 def load_students(filename = "students.csv")
   file = File.open(filename, "r")
   file.readlines.each do |line|
-  name, country, age, cohort = line.chomp.split(',')
-    @students << {name: name, country: country, age: age, cohort: cohort}
+  name, cohort = line.chomp.split(',')
+    @students << {name: name, cohort: cohort.to_sym}
   end
   file.close
-   sucessful
-   puts "File has loaded"
+  puts "File has loaded"
 end
+
 
 #input the file automatically
 def input
