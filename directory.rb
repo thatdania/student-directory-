@@ -44,14 +44,14 @@ def process(selection)
     print_rest
   when "3"
     save_students
-    puts "File is saved"
+    puts "\nFile is saved\n\n"
   when "4"
     load_students
-    puts "Loaded the file"
+    puts "\nLoaded the file\n\n"
   when "5"
     exit(true)
   else
-  puts "I dont know what you mean. Input the number again."
+  puts "\nI dont know what you mean. Input the number again.\n\n"
   end
 end
 
@@ -65,24 +65,19 @@ def input_students
   puts "------------- Student List Form -------------".center(60)
   puts "Add a student profile to the list. What's his/her name?".center(72)
 
-  name = gets.chomp.downcase.capitalize
-  if name.empty? || name == " "
-    alien
-  end
+     name = gets.chomp.downcase.capitalize
 
     while !name.empty? do
      puts "What country are they from?".center(43)
      country = $stdin.gets.chomp.downcase.capitalize
-     if country.empty? || country == " "
-        alien
-     end
 
     puts "What's his or her age?".center(39)
      age = $stdin.gets.chomp
-      if age.empty? || age == " "
-         alien
+     age.to_i
+
+    if name == " " || country.empty? || country == " " || age.empty? || age == " "
+     alien
        end
-       age.to_i
 
 #using the @year_cohorts to specify the answer for the cohort
      puts "What cohort are they in? (month)".center(48)
@@ -102,7 +97,6 @@ def input_students
   end
      @students
   end
-#input code help
 
 #printing the rest of the methods
 def print_rest
@@ -119,18 +113,9 @@ end
 
 #printing the list of students
 def prints(students)
-  puts "What cohort do you want to see?".center(47)
-  c = gets.chomp
-  puts
-  @students.map do |student| if student[:cohort] == c
-    print student[:name]
-    print ", Country: "
-    print student[:country]
-    print ", Age: "
-    print student[:age]
-    puts
+  @students.each do |student|
+    puts "#{student[:name]} (#{student[:cohort]} cohort)"
   end
-end
 end
 
 #printing the total number of students and end
@@ -159,11 +144,11 @@ end
 def load_students(filename = "students.csv")
   file = File.open(filename, "r")
   file.readlines.each do |line|
-  name, country, age, cohort = line.chomp.split(',')
-    @students << {name: name, country: country, age: age, cohort: cohort.to_sym}
+  name, cohort = line.chomp.split(',')
+    @students << {name: name, cohort: cohort.to_sym}
   end
   file.close
-  puts @students
+   puts @students
 end
 
 #input the file automatically
