@@ -27,7 +27,7 @@ end
 
 #print the menu
 def print_menu
-puts "Hi. Welcome to the Student Directory. Write the option number."
+puts "Hi. Welcome to the Student Directory. Write the option number, only."
 puts "1. Input the students"
 puts "2. Show all students"
 #show_students the students via cohort
@@ -45,10 +45,8 @@ def process(selection)
     print_rest
   when "4"
     save_students
-    puts "\nFile is saved\n\n"
   when "5"
     load_students
-    puts "\nLoaded the file\n\n"
   when "6"
     exit(true)
   else
@@ -75,7 +73,6 @@ def input_students
      alien
        end
 
-#using the @year_cohorts to specify the answer for the cohort
      puts "What cohort are they in? (month)".center(48)
      cohort = $stdin.gets.chomp
 
@@ -84,15 +81,16 @@ def input_students
      cohort = $stdin.gets.chomp
   end
 
-  @students << {name: name, country: country , age: age, cohort: cohort}
+  @students << {name: name, country: country , age: age, cohort: cohort.to_sym}
      puts "Now we have #{@students.count} students".center(39)
+     sucessful
      puts "Add another student's profile his/her name.".center(60)
-     puts "or press ENTER to print out the whole list".center(58)
-  # get another name from the user
+     puts "or Press ENTER to print out the whole list".center(58)
      name = gets.chomp
   end
      @students
   end
+
 
 #For step 1 input: ALIEN
   def alien
@@ -128,6 +126,7 @@ if names.count == 1
 else
   puts "Overall, we have #{names.count} great students!".center(50)
 end
+sucessful
 puts "---------------------------------------------".center(60)
 end
 
@@ -140,6 +139,8 @@ def save_students
   file.puts csv_line
 end
 file.close
+puts "File is saved"
+sucessful
 end
 
 #5. load the file of students
@@ -147,25 +148,29 @@ def load_students(filename = "students.csv")
   file = File.open(filename, "r")
   file.readlines.each do |line|
   name, country, age, cohort = line.chomp.split(',')
-    @students << {name: name, country: country, age: age, cohort: cohort.to_sym}
+    @students << {name: name, country: country, age: age, cohort: cohort}
   end
   file.close
-   puts @students
+   sucessful
+   puts "File has loaded"
 end
 
 #input the file automatically
 def input
-filename = ARGV.first
-return if filename.nil?
-if File.exists?(filename)
-  load_students(filename)
-  puts "Loaded #{@students.count} from #{filename}"
-else
-  puts "Soz, #{filename} doesn't exist"
-  exit
-end
+  filename = ARGV.first
+  if filename.nil?
+    load_students
+  elsif File.exists?(filename)
+    load_students(filename)
+  else
+    puts "Sorry, #{filename} doesn't exist."
+    exit
+  end
 end
 
+def sucessful
+  puts "Process sucessful"
+end
 
 #calling the methods
 input
