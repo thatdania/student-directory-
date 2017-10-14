@@ -1,3 +1,5 @@
+require 'csv'
+
 #This is to specify the cohort only as 12 options as an answer
 @year_cohorts = [
   :january,
@@ -13,9 +15,6 @@
   :november,
   :december
 ]
-
-#Inputting the student name, #country and # age
-@students = []
 
 #The menu starts the activate
 def interactive_menu
@@ -133,19 +132,14 @@ end
 #3. Asking to show the students via cohort
 
 
-#4.1 asking where to save
+#4 asking where to save
 def asking_save
 puts "Where would you like to save the students?"
-save_students(STDIN.gets.chomp)
-end
-
-#4. save the students to the file
-def save_students(csv_file)
-  file = File.open(csv_file,"w") do |data|
-  @students. each do |student|
+filesaved_chosen = STDIN.gets.chomp
+CSV.open(filesaved_chosen, "w") do |csv|
+@students.each do |student|
   student_data = [student[:name], student[:country], student[:age], student[:cohort]]
-  csv_line = student_data.join(",")
-  data.puts csv_line
+  csv << student_data
 end
 end
 puts "File is saved"
@@ -156,22 +150,30 @@ end
 def load_students
   puts "Which file would you like to load from?"
   filename = gets.chomp
-  until File.exist?(filename)
-  puts "File no exist, try again"
-  filename = gets.chomp
+  if !File.exist?(filename)
+  filename = "students.csv"
+  puts "File no exist, loading default"
 end
-  file = File.open(filename, "r") 
-  file.readlines.each do |line|
-  name, cohort = line.chomp.split(',')
-    @students << {name: name, cohort: cohort.to_sym}
-  end
-  file.close
-  puts "File has loaded"
+csv_to_array(filename)
+puts "File has loaded"
 end
 
+def csv_to_array (csv_file)
+file = File.open(csv_file, "r") do |f|
+@students = []
+CSV.foreach(f) do |line|
+name, country, age, cohort = line[0], line[1], line[2],line[3]
+add_student(name, country, age, cohort)
+end
+end
+end
+
+def add_student(name,country,age,cohort)
+  @students << {name: name, country: country, age: age, cohort: cohort.to_sym}
+end
 
 #input the file automatically
-def input
+def input_autoload
   filename = ARGV.first
   if filename.nil?
     load_students
@@ -188,5 +190,5 @@ def sucessful
 end
 
 #calling the methods
-input
+input_autoload
 interactive_menu
