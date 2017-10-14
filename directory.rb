@@ -46,7 +46,7 @@ def process(selection)
   when "4"
     asking_save
   when "5"
-    load_ask
+    load_students
   when "6"
     exit(true)
   else
@@ -141,13 +141,13 @@ end
 
 #4. save the students to the file
 def save_students(csv_file)
-  file = File.open(csv_file,"w")
+  file = File.open(csv_file,"w") do |data|
   @students. each do |student|
   student_data = [student[:name], student[:country], student[:age], student[:cohort]]
   csv_line = student_data.join(",")
-  file.puts csv_line
+  data.puts csv_line
 end
-file.close
+end
 puts "File is saved"
 sucessful
 end
@@ -159,8 +159,8 @@ def load_students
   until File.exist?(filename)
   puts "File no exist, try again"
   filename = gets.chomp
-end 
-  file = File.open(filename, "r")
+end
+  file = File.open(filename, "r") 
   file.readlines.each do |line|
   name, cohort = line.chomp.split(',')
     @students << {name: name, cohort: cohort.to_sym}
