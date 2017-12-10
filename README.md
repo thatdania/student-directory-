@@ -1,7 +1,11 @@
 # Student Directory #
 
 The student directory allows you to manage the list of students
-enrolled at Villians Academy
+enrolled at Villians Academy. This project allows you to enter new students 
+dependant on their cohort and name. It also allows you to save the students
+details and find their name in the list.
+
+This was to get familiar with Ruby. 
 
 ## How to use ##
 
